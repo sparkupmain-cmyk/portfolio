@@ -1,0 +1,1094 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Charlotte Baudin</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,700;12..96,800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    /* ── Dark mode (default) ── */
+    :root {
+      --bg:           #1E0610;
+      --accent:       #FF8FAB;
+      --accent-soft:  rgba(255,143,171,0.12);
+      --accent-border:rgba(255,143,171,0.25);
+      --pill-text:    #1A0508;
+      --text:         rgba(255,255,255,0.88);
+      --text-strong:  #ffffff;
+      --muted:        rgba(255,255,255,0.45);
+      --card-bg:      rgba(255,255,255,0.05);
+      --card-border:  rgba(255,255,255,0.09);
+      --card-hover:   rgba(255,255,255,0.09);
+      --nav-bg:       rgba(255,255,255,0.06);
+      --nav-border:   rgba(255,255,255,0.1);
+      --nav-active:   rgba(255,255,255,0.11);
+      --tooltip-bg:   rgba(20,4,10,0.97);
+      --sparkle-a:    #ffffff;
+      --sparkle-b:    #FFCCD5;
+    }
+
+    /* ── Light mode ── */
+    html.light {
+      --bg:           #FEF0F4;
+      --accent:       #C0314F;
+      --accent-soft:  rgba(192,49,79,0.09);
+      --accent-border:rgba(192,49,79,0.2);
+      --pill-text:    #ffffff;
+      --text:         rgba(42,6,14,0.88);
+      --text-strong:  #1A0508;
+      --muted:        rgba(42,6,14,0.48);
+      --card-bg:      rgba(255,255,255,0.65);
+      --card-border:  rgba(192,49,79,0.12);
+      --card-hover:   rgba(255,255,255,0.9);
+      --nav-bg:       rgba(255,255,255,0.75);
+      --nav-border:   rgba(0,0,0,0.08);
+      --nav-active:   rgba(0,0,0,0.06);
+      --tooltip-bg:   rgba(255,240,244,0.98);
+      --sparkle-a:    #C0314F;
+      --sparkle-b:    #FF8FAB;
+    }
+
+    /* ── Global transitions ── */
+    body, nav, .blob, .project-card, .edu-card, .add-card,
+    .contact-card, .stair-pill, footer, .pill-tooltip {
+      transition: background 0.4s ease, color 0.4s ease,
+                  border-color 0.4s ease, box-shadow 0.4s ease;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── Background blobs ── */
+    .blobs {
+      position: fixed; inset: 0;
+      pointer-events: none; z-index: 0; overflow: hidden;
+    }
+    .blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(100px);
+      opacity: 0.55;
+      transition: background 0.5s ease, opacity 0.5s ease;
+    }
+    .blob-1 { width: 700px; height: 500px; top: -15%; left: -10%; }
+    .blob-2 { width: 500px; height: 400px; top: 10%;  right: -5%; }
+    .blob-3 { width: 600px; height: 400px; bottom: 5%; left: 20%; }
+
+    /* Dark blobs */
+    :root .blob-1 { background: radial-gradient(ellipse, #7A1230, transparent 70%); }
+    :root .blob-2 { background: radial-gradient(ellipse, #5C1025, transparent 70%); }
+    :root .blob-3 { background: radial-gradient(ellipse, #4A0E1E, transparent 70%); }
+
+    /* Light blobs */
+    html.light .blob-1 { background: radial-gradient(ellipse, #F9B8C9, transparent 70%); opacity: 0.7; }
+    html.light .blob-2 { background: radial-gradient(ellipse, #FFCCD8, transparent 70%); opacity: 0.6; }
+    html.light .blob-3 { background: radial-gradient(ellipse, #F5A8BC, transparent 70%); opacity: 0.65; }
+
+    /* ── Nav ── */
+    nav {
+      position: fixed;
+      top: 1.25rem; left: 50%;
+      transform: translateX(-50%);
+      z-index: 100;
+      display: flex; gap: 0.25rem;
+      background: var(--nav-bg);
+      border: 1px solid var(--nav-border);
+      border-radius: 99px;
+      padding: 0.35rem;
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      white-space: nowrap;
+    }
+    nav a {
+      display: block;
+      padding: 0.4rem 1.1rem;
+      border-radius: 99px;
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.875rem; font-weight: 500;
+      transition: color 0.2s ease, background 0.2s ease;
+      letter-spacing: 0.01em;
+    }
+    nav a:hover { color: var(--text); }
+    nav a.active { background: var(--nav-active); color: var(--text); }
+
+    #lang-toggle {
+      display: block; padding: 0.4rem 1rem; border-radius: 99px;
+      background: none; border: 1px solid var(--accent-border);
+      color: var(--muted); cursor: pointer;
+      font-size: 0.8rem; font-weight: 700; letter-spacing: 0.08em;
+      font-family: inherit;
+      transition: color 0.2s ease, border-color 0.2s ease;
+    }
+    #lang-toggle:hover { color: var(--accent); border-color: var(--accent); }
+
+    /* ── Theme toggle ── */
+    #theme-toggle {
+      position: fixed;
+      bottom: 2rem; right: 2rem;
+      z-index: 200;
+      width: 54px; height: 54px;
+      border-radius: 50%;
+      border: none;
+      background: var(--accent);
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.25), 0 0 0 0 var(--accent);
+      transition: background 0.4s ease, box-shadow 0.4s ease, transform 0.2s ease;
+      overflow: hidden;
+    }
+    #theme-toggle:hover {
+      transform: scale(1.12);
+      box-shadow: 0 6px 28px rgba(0,0,0,0.3), 0 0 0 6px var(--accent-soft);
+    }
+    #theme-toggle:active { transform: scale(0.95); }
+
+    .toggle-icon {
+      position: absolute;
+      font-size: 1.4rem;
+      transition: opacity 0.3s ease, transform 0.4s ease;
+      line-height: 1;
+    }
+    .icon-moon { opacity: 1; transform: rotate(0deg) scale(1); }
+    .icon-sun  { opacity: 0; transform: rotate(90deg) scale(0.5); }
+
+    html.light .icon-moon { opacity: 0; transform: rotate(-90deg) scale(0.5); }
+    html.light .icon-sun  { opacity: 1; transform: rotate(0deg) scale(1); }
+
+    @keyframes toggle-spin {
+      0%   { transform: rotate(0deg) scale(1); }
+      40%  { transform: rotate(200deg) scale(0.75); }
+      100% { transform: rotate(360deg) scale(1); }
+    }
+    #theme-toggle.spinning { animation: toggle-spin 0.5s cubic-bezier(0.34,1.56,0.64,1); }
+
+    /* ── Sections ── */
+    section { position: relative; z-index: 1; padding: 4rem 2rem; }
+    .container { max-width: 960px; margin: 0 auto; }
+
+    .section-eyebrow {
+      font-size: 0.78rem; font-weight: 600;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 0.75rem;
+    }
+    .section-heading {
+      font-family: 'Bricolage Grotesque', sans-serif;
+      font-size: clamp(2.5rem, 6vw, 4rem);
+      font-weight: 800; color: var(--accent);
+      line-height: 1.05; margin-bottom: 2rem;
+    }
+    .section-heading.sm {
+      font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+    }
+
+    /* ── Hero ── */
+    #hero {
+      min-height: 100vh;
+      display: flex; align-items: center;
+      padding: 7rem 2rem 5rem;
+      position: relative; z-index: 1;
+    }
+    .hero-inner {
+      max-width: 960px; margin: 0 auto;
+      display: flex; align-items: center;
+      gap: 4rem; width: 100%;
+    }
+    .hero-text { flex: 1; }
+    .hero-title {
+      font-family: 'Bricolage Grotesque', sans-serif;
+      font-size: clamp(3.8rem, 10vw, 8rem);
+      font-weight: 800; color: var(--accent);
+      line-height: 0.95; margin-bottom: 1.25rem; position: relative;
+    }
+    #sparkle-name { display: inline-block; position: relative; }
+
+    .hero-meta {
+      color: var(--muted); font-size: 1.05rem;
+      font-weight: 500; text-align: center;
+    }
+
+    /* Hero photo blob */
+    .hero-photo-wrap {
+      flex-shrink: 0;
+      width: 340px; height: 390px;
+      position: relative;
+    }
+    .hero-photo {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+      border: 3px solid var(--accent-border);
+      animation: blob-morph 9s ease-in-out infinite;
+      transition: border-color 0.4s ease;
+      display: block;
+    }
+    @keyframes blob-morph {
+      0%,100% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+      25%      { border-radius: 40% 60% 55% 45% / 50% 40% 60% 50%; }
+      50%      { border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%; }
+      75%      { border-radius: 55% 45% 40% 60% / 35% 65% 45% 65%; }
+    }
+
+    /* Sparkles */
+    .sparkle-svg { position: absolute; pointer-events: none; z-index: 20; }
+
+    /* ── About ── */
+    #about { background: transparent; }
+    .about-body {
+      font-size: 1.15rem; line-height: 1.85;
+      color: var(--text); max-width: 680px;
+    }
+    .about-body strong { color: var(--accent); font-weight: 600; }
+
+    /* ── Staircase ── */
+    #experience { padding-bottom: 4rem; }
+    .staircase { display: flex; flex-direction: column; gap: 0.45rem; }
+    .stair-item { display: flex; align-items: stretch; position: relative; }
+
+    .stair-pill {
+      flex: 1; display: flex; justify-content: space-between;
+      align-items: center; gap: 1.5rem;
+      background: var(--accent); color: var(--pill-text);
+      border-radius: 99px; padding: 1.1rem 1.75rem 1.1rem 2rem;
+      transition: filter 0.2s ease, transform 0.2s ease, background 0.4s ease;
+      cursor: default;
+    }
+    .stair-pill:hover { filter: brightness(1.06); transform: scaleY(1.03); }
+
+    .pill-left { display: flex; flex-direction: column; gap: 0.15rem; }
+    .pill-title {
+      font-family: 'Bricolage Grotesque', sans-serif;
+      font-size: 1rem; font-weight: 700;
+      color: var(--pill-text); line-height: 1.2;
+    }
+    .pill-org { font-size: 0.8rem; font-weight: 500; color: rgba(255,255,255,0.65); }
+    html.light .pill-org { color: rgba(255,255,255,0.7); }
+
+    .pill-date {
+      font-family: 'Bricolage Grotesque', sans-serif;
+      font-size: 1rem; font-weight: 700;
+      color: rgba(255,255,255,0.6); white-space: nowrap; flex-shrink: 0;
+    }
+    html.light .pill-date { color: rgba(255,255,255,0.65); }
+
+    .pill-tooltip {
+      display: none; position: absolute;
+      bottom: calc(100% + 10px); left: 50%;
+      transform: translateX(-50%);
+      background: var(--tooltip-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px; padding: 0.8rem 1.1rem;
+      font-size: 0.83rem; color: var(--text);
+      width: 260px; line-height: 1.5;
+      z-index: 10; backdrop-filter: blur(12px); pointer-events: none;
+    }
+    .stair-item:hover .pill-tooltip { display: block; }
+
+    /* ── Projects ── */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.25rem;
+      align-items: stretch;
+    }
+    .project-card {
+      background: var(--card-bg); border: 1px solid var(--card-border);
+      border-radius: 20px; padding: 1.25rem 1.5rem;
+      display: flex; flex-direction: column;
+      transition: background 0.25s ease, border-color 0.25s ease, transform 0.25s ease;
+    }
+    .project-card:hover { background: var(--card-hover); border-color: var(--accent-border); transform: translateY(-4px); }
+    .project-emoji { font-size: 1.8rem; display: block; margin-bottom: 0.6rem; }
+    .project-title {
+      font-family: 'Bricolage Grotesque', sans-serif;
+      font-size: 1.3rem; font-weight: 700;
+      color: var(--text-strong); margin-bottom: 0.3rem;
+    }
+    .project-date { font-size: 0.78rem; color: var(--accent); font-weight: 600; margin-bottom: 0.75rem; }
+    .project-desc { font-size: 0.9rem; color: var(--muted); line-height: 1.65; }
+
+    /* ── Designer card ── */
+    .designer-card { background: var(--accent-soft) !important; border-color: var(--accent-border) !important; }
+    .designer-inner {
+      display: flex;
+      gap: 3rem;
+      align-items: flex-start;
+      flex-wrap: wrap;
+    }
+    .designer-left { flex: 1; min-width: 220px; }
+    .designer-services {
+      flex: 2; min-width: 280px;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+    .design-service {
+      display: flex;
+      gap: 0.75rem;
+      align-items: flex-start;
+      padding: 0.5rem 0.75rem;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      transition: background 0.2s ease, border-color 0.2s ease;
+    }
+    .design-service:hover { background: var(--card-hover); border-color: var(--accent-border); }
+    .design-service-icon { font-size: 1.4rem; flex-shrink: 0; margin-top: 0.05rem; }
+    .design-service-title {
+      font-family: 'Bricolage Grotesque', sans-serif;
+      font-size: 0.95rem; font-weight: 700;
+      color: var(--text-strong); margin-bottom: 0.15rem;
+    }
+    .design-service-desc { font-size: 0.83rem; color: var(--muted); line-height: 1.5; }
+
+    /* ── Education ── */
+    .edu-grid { display: grid; grid-template-columns: 1fr; gap: 1.25rem; }
+    .edu-card {
+      background: var(--card-bg); border: 1px solid var(--card-border);
+      border-radius: 20px; padding: 1.75rem 2rem;
+      display: flex; gap: 1.25rem; align-items: flex-start;
+      transition: background 0.25s ease, border-color 0.25s ease, transform 0.25s ease;
+    }
+    .edu-card:hover { background: var(--card-hover); border-color: var(--accent-border); transform: translateY(-3px); }
+    .edu-emoji { font-size: 2rem; flex-shrink: 0; margin-top: 0.1rem; }
+    .edu-degree {
+      font-family: 'Bricolage Grotesque', sans-serif;
+      font-size: 1.1rem; font-weight: 700;
+      color: var(--text-strong); margin-bottom: 0.25rem;
+    }
+    .edu-school { font-size: 0.875rem; color: var(--accent); font-weight: 500; margin-bottom: 0.2rem; }
+    .edu-date { font-size: 0.8rem; color: var(--muted); }
+
+    /* ── Additional ── */
+    .additional-grid { display: grid; grid-template-columns: 1fr; gap: 1.25rem; }
+    .add-card {
+      background: var(--card-bg); border: 1px solid var(--card-border);
+      border-radius: 20px; padding: 1.5rem;
+      transition: background 0.25s ease;
+    }
+    .add-card:hover { background: var(--card-hover); }
+    .add-label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); font-weight: 600; margin-bottom: 1rem; }
+    .chips { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .chip {
+      background: var(--accent-soft); border: 1px solid var(--accent-border);
+      color: var(--accent); font-size: 0.8rem; font-weight: 600;
+      padding: 0.3rem 0.8rem; border-radius: 99px;
+    }
+    .ach-list { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
+    .ach-list li { font-size: 0.85rem; color: var(--text); display: flex; gap: 0.5rem; line-height: 1.45; align-items: flex-start; }
+    .ach-list li::before { content: '✦'; color: var(--accent); font-size: 0.65rem; flex-shrink: 0; margin-top: 0.25em; }
+
+    /* ── Contact ── */
+    #contact { text-align: center; }
+    .contact-row { display: flex; gap: 1.25rem; justify-content: center; flex-wrap: wrap; }
+    .contact-card {
+      display: flex; align-items: center; gap: 1.1rem;
+      background: var(--card-bg); border: 1px solid var(--card-border);
+      border-radius: 20px; padding: 1.5rem 2rem;
+      text-decoration: none; min-width: 270px;
+      transition: background 0.25s ease, border-color 0.25s ease, transform 0.25s ease;
+    }
+    .contact-card:hover { background: var(--card-hover); border-color: var(--accent-border); transform: translateY(-4px); }
+    .contact-icon {
+      width: 44px; height: 44px; border-radius: 12px;
+      background: var(--accent-soft); border: 1px solid var(--accent-border);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem; flex-shrink: 0;
+    }
+    .contact-label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); font-weight: 600; margin-bottom: 0.2rem; }
+    .contact-value { font-size: 0.95rem; font-weight: 600; color: var(--text-strong); }
+
+    /* ── Footer ── */
+    footer {
+      position: relative; z-index: 1;
+      text-align: center; padding: 2.5rem;
+      color: var(--muted); font-size: 0.82rem;
+      border-top: 1px solid var(--card-border);
+    }
+
+    /* ── Fade-in ── */
+    .fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+    /* ── Edu + Skills side by side ── */
+    .edu-skills-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.5fr;
+      gap: 3.5rem;
+      align-items: stretch;
+    }
+    @media (max-width: 700px) {
+      .edu-skills-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+    }
+
+    /* ── Photo strip ── */
+    .photo-strip-outer {
+      position: relative; z-index: 1;
+      overflow: hidden;
+      padding: 0.5rem 0 3.5rem;
+    }
+    .photo-strip-outer::before,
+    .photo-strip-outer::after {
+      content: '';
+      position: absolute; top: 0; bottom: 0; width: 160px;
+      z-index: 2; pointer-events: none;
+    }
+    .photo-strip-outer::before { left:  0; background: linear-gradient(to right, var(--bg), transparent); }
+    .photo-strip-outer::after  { right: 0; background: linear-gradient(to left,  var(--bg), transparent); }
+
+    .photo-strip {
+      display: flex; gap: 14px;
+      width: max-content;
+      animation: strip-scroll 55s linear infinite;
+    }
+    .photo-strip:hover { animation-play-state: paused; }
+
+    @keyframes strip-scroll {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+
+    .strip-photo {
+      height: 210px; width: auto;
+      border-radius: 14px;
+      object-fit: cover; flex-shrink: 0;
+      opacity: 0.85;
+      transition: transform 0.35s ease, opacity 0.35s ease;
+    }
+    .strip-photo:hover { transform: scale(1.04); opacity: 1; }
+
+    /* ── Responsive ── */
+    @media (max-width: 700px) {
+      nav { gap: 0; padding: 0.3rem; }
+      nav a { padding: 0.35rem 0.75rem; font-size: 0.8rem; }
+      .hero-inner { flex-direction: column-reverse; text-align: center; gap: 2rem; }
+      .hero-photo-wrap { width: 240px; height: 270px; }
+      .stair-item { margin-left: 0 !important; }
+      .projects-grid, .edu-grid { grid-template-columns: 1fr; }
+      #theme-toggle { bottom: 1.25rem; right: 1.25rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Background blobs -->
+  <div class="blobs" aria-hidden="true">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+  </div>
+
+  <!-- Nav -->
+  <nav>
+    <a href="#hero" class="active" data-nav="home">Home</a>
+    <a href="#about" data-nav="about">About</a>
+    <a href="#experience" data-nav="experience">Experience</a>
+    <a href="#projects" data-nav="projects">Projects</a>
+    <a href="#education" data-nav="education">Education</a>
+    <a href="#contact" data-nav="contact">Contact</a>
+    <button id="lang-toggle">FR</button>
+  </nav>
+
+  <!-- Theme toggle -->
+  <button id="theme-toggle" aria-label="Toggle light/dark mode">
+    <span class="toggle-icon icon-moon">🌙</span>
+    <span class="toggle-icon icon-sun">☀️</span>
+  </button>
+
+  <!-- Hero -->
+  <section id="hero">
+    <div class="hero-inner">
+      <div class="hero-text">
+        <h1 class="hero-title">
+          <span id="hero-intro">HI. I'm</span><br>
+          <span id="sparkle-name">Charlotte.</span>
+        </h1>
+        <p class="hero-meta">Economics & Computer Science · Montreal</p>
+      </div>
+      <div class="hero-photo-wrap">
+        <img src="IMG_0465.jpeg" alt="Charlotte" class="hero-photo" />
+      </div>
+    </div>
+  </section>
+
+  <!-- About -->
+  <section id="about">
+    <div class="container">
+      <h2 class="section-heading fade-in">Driven by results,<br>built on experience.</h2>
+      <p class="about-body fade-in">
+        Very active, energetic, social, and enthusiastic person. Results-driven leader with a demonstrated ability to build and lead teams in successfully developing projects from concept to completion. Currently <strong>Founder & CEO of Spark</strong> — a sports-matching app bringing affordability and community back to sports.      </p>
+    </div>
+  </section>
+
+  <!-- Photo strip -->
+  <div class="photo-strip-outer">
+    <div class="photo-strip">
+      <img class="strip-photo" src="IMG_0081.jpeg" alt="" />
+      <img class="strip-photo" src="IMG_0331.JPG" alt="" />
+      <img class="strip-photo" src="IMG_2381.jpeg" alt="" />
+      <img class="strip-photo" src="52BAFF96-E3A7-4D4F-A0D2-FF81E74576A4.JPG" alt="" />
+      <img class="strip-photo" src="IMG_5363.JPG" alt="" />
+      <img class="strip-photo" src="rowing-medals.jpeg" alt="" />
+      <img class="strip-photo" src="IMG_8065.jpeg" alt="" />
+      <img class="strip-photo" src="IMG_7891.jpeg" alt="" />
+      <img class="strip-photo" src="b674ac43-b8ac-4a2b-b540-d8cea528b814.jpg" alt="" />
+      <!-- duplicate for seamless loop -->
+      <img class="strip-photo" src="IMG_0081.jpeg" alt="" />
+      <img class="strip-photo" src="IMG_0331.JPG" alt="" />
+      <img class="strip-photo" src="IMG_2381.jpeg" alt="" />
+      <img class="strip-photo" src="52BAFF96-E3A7-4D4F-A0D2-FF81E74576A4.JPG" alt="" />
+      <img class="strip-photo" src="IMG_5363.JPG" alt="" />
+      <img class="strip-photo" src="rowing-medals.jpeg" alt="" />
+      <img class="strip-photo" src="IMG_8065.jpeg" alt="" />
+      <img class="strip-photo" src="IMG_7891.jpeg" alt="" />
+      <img class="strip-photo" src="b674ac43-b8ac-4a2b-b540-d8cea528b814.jpg" alt="" />
+    </div>
+  </div>
+
+  <!-- Experience — staircase -->
+  <section id="experience">
+    <div class="container">
+      <h2 class="section-heading fade-in">Work &<br>leadership.</h2>
+
+      <div class="staircase fade-in">
+
+        <div class="stair-item" style="margin-left: 46%;">
+          <div class="stair-pill" style="background: linear-gradient(90deg, #FF8FAB, #FF8A00);">
+            <div class="pill-left">
+              <span class="pill-title"><img src="Sparklogoshort.png" alt="Spark" style="height: 1.3em; width: auto; vertical-align: middle; margin-right: 0.4em; mix-blend-mode: multiply;" />Founder & CEO — Spark</span>
+              <span class="pill-org">"Tinder for sports" · Montreal</span>
+            </div>
+            <span class="pill-date">2026~</span>
+          </div>
+          <div class="pill-tooltip">Building Spark — an app that matches users with sports coaches and players based on skill level and location. Targeting 200,000+ students in Montreal, addressing Gen Z sports affordability and loneliness.</div>
+        </div>
+
+        <div class="stair-item" style="margin-left: 39%;">
+          <div class="stair-pill">
+            <div class="pill-left">
+              <span class="pill-title">Intern — Zastre & Co</span>
+              <span class="pill-org">Capital Advisory · Private Markets</span>
+            </div>
+            <span class="pill-date">Jan–Apr 26</span>
+          </div>
+          <div class="pill-tooltip">Interned at Zastre & Co, an elite capital advisory firm specializing in private markets. Supported end-to-end deal execution across private equity, credit, and real estate — from investor outreach and roadshow preparation to term sheet negotiation and post-close advisory.</div>
+        </div>
+
+        <div class="stair-item" style="margin-left: 32%;">
+          <div class="stair-pill">
+            <div class="pill-left">
+              <span class="pill-title">Tutor</span>
+              <span class="pill-org">Volunteer & private, 2–3h/week</span>
+            </div>
+            <span class="pill-date">23–25</span>
+          </div>
+          <div class="pill-tooltip">Volunteer tutoring for underprivileged middle schoolers and private tutoring, 2–3 hours per week.</div>
+        </div>
+
+        <div class="stair-item" style="margin-left: 25%;">
+          <div class="stair-pill">
+            <div class="pill-left">
+              <span class="pill-title">UNICEF Youth Ambassador</span>
+              <span class="pill-org">Fundraising & awareness campaigns</span>
+            </div>
+            <span class="pill-date">23–26</span>
+          </div>
+          <div class="pill-tooltip">Organized fundraising and awareness activities for International Children's Rights Day; coordinated donation drives and volunteer recruitment.</div>
+        </div>
+
+        <div class="stair-item" style="margin-left: 18%;">
+          <div class="stair-pill">
+            <div class="pill-left">
+              <span class="pill-title">Camp Counsellor — UCPA</span>
+              <span class="pill-org">Led activities for children aged 7–17</span>
+            </div>
+            <span class="pill-date">24–26</span>
+          </div>
+          <div class="pill-tooltip">Led activities and animation for children aged 7 to 17 during weekly summer camps.</div>
+        </div>
+
+        <div class="stair-item" style="margin-left: 12%;">
+          <div class="stair-pill">
+            <div class="pill-left">
+              <span class="pill-title">National Olympic & Sports Committee</span>
+              <span class="pill-org">Internship · Paris, France</span>
+            </div>
+            <span class="pill-date">Dec 23</span>
+          </div>
+          <div class="pill-tooltip">One-week immersion internship at the National Olympic and Sports Committee headquarters in Paris.</div>
+        </div>
+
+        <div class="stair-item" style="margin-left: 6%;">
+          <div class="stair-pill">
+            <div class="pill-left">
+              <span class="pill-title">CNF Rowing Club — Youth Committee Rep</span>
+              <span class="pill-org">Neuilly-sur-Seine · Coaching & safety</span>
+            </div>
+            <span class="pill-date">21–25</span>
+          </div>
+          <div class="pill-tooltip">Organized team-building activities, ensured on-water safety, and coached beginners. Youth representative in the Directing Committee.</div>
+        </div>
+
+        <div class="stair-item" style="margin-left: 0%;">
+          <div class="stair-pill">
+            <div class="pill-left">
+              <span class="pill-title">Youth Mayor's Council</span>
+              <span class="pill-org">Mayor's Office · Neuilly-sur-Seine</span>
+            </div>
+            <span class="pill-date">20–22</span>
+          </div>
+          <div class="pill-tooltip">Two-year engagement in local youth civic governance at the Neuilly-sur-Seine Mayor's office.</div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Projects -->
+  <section id="projects">
+    <div class="container">
+      <h2 class="section-heading fade-in">Initiatives &<br>ventures.</h2>
+      <div class="projects-grid">
+
+        <div class="project-card fade-in" style="border-color: var(--accent-border);">
+          <img src="Sparklogoshort.png" alt="Spark" style="height: 1.8rem; width: auto; object-fit: contain; margin-bottom: 0.6rem; display: block; align-self: flex-start;" />
+          <div class="project-title">Spark — Founder & CEO</div>
+          <div class="project-date">2026 · Montreal · <a href="https://spark-up.ca/" target="_blank" rel="noopener noreferrer" style="color: var(--accent); text-decoration:none;">spark-up.ca</a> · <a href="mailto:sparkup.main@gmail.com" style="color: var(--accent); text-decoration:none;">sparkup.main@gmail.com</a></div>
+          <p class="project-desc" style="margin-bottom: 1rem;">"Tinder for sports" — currently building an app that matches users with sports coaches and skilled players through an algorithm based on needs and location.</p>
+          <div class="chips">
+            <span class="chip">Skill-based Matching</span>
+            <span class="chip">Hyper-local</span>
+            <span class="chip">Community Play</span>
+            <span class="chip">B2C App</span>
+          </div>
+        </div>
+
+        <div class="project-card fade-in designer-card">
+          <span class="project-emoji">🎨</span>
+          <div class="project-title">Available for Design Work</div>
+          <p class="project-desc" style="margin: 0.3rem 0 1rem;">I design and build for brands that want to stand out — websites, identities, and marketing collateral.</p>
+          <div style="display: flex; flex-direction: column; gap: 0.6rem; flex: 1;">
+            <div class="design-service">
+              <span class="design-service-icon">🌐</span>
+              <div>
+                <div class="design-service-title">Websites</div>
+                <div class="design-service-desc">Custom sites that look great and perform better.</div>
+              </div>
+            </div>
+            <div class="design-service">
+              <span class="design-service-icon">✏️</span>
+              <div>
+                <div class="design-service-title">Branding & Logos</div>
+                <div class="design-service-desc">Logos, color palettes, typography, and brand guides.</div>
+              </div>
+            </div>
+            <div class="design-service">
+              <span class="design-service-icon">📣</span>
+              <div>
+                <div class="design-service-title">Marketing Material</div>
+                <div class="design-service-desc">Pitch decks, social graphics, and print collateral.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="project-card fade-in">
+          <span class="project-emoji">🎭</span>
+          <div class="project-title">Event planning : Talent Show</div>
+          <div class="project-date">Sep – Dec 2024</div>
+          <p class="project-desc">Chief planner and presenter of a talent show for over 1,000 attendees. Managed logistics, rehearsals, and live presentation over 3 months.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Education + Skills -->
+  <section id="education">
+    <div class="container">
+      <div class="edu-skills-grid">
+
+        <div style="display:flex; flex-direction:column;">
+          <h2 class="section-heading sm fade-in">Academic<br>background.</h2>
+          <div class="edu-grid" style="flex:1; display:flex; flex-direction:column;">
+
+            <div class="edu-card fade-in" style="flex:1;">
+              <div class="edu-emoji">🎓</div>
+              <div>
+                <div class="edu-degree">Bachelor of Arts: Economics</div>
+                <div class="edu-school">McGill University</div>
+                <div class="edu-date">Sep 2025 – May 2028</div>
+                <div class="edu-date" style="margin-top:0.25rem;">Minor in Computer Science</div>
+              </div>
+            </div>
+
+            <div class="edu-card fade-in" style="flex:1;">
+              <div class="edu-emoji">📜</div>
+              <div>
+                <div class="edu-degree">French Baccalauréat — with Mention</div>
+                <div class="edu-school">Institution Saint Dominique, Neuilly-sur-Seine</div>
+                <div class="edu-date">Sep 2018 – Jun 2025</div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div>
+          <h2 class="section-heading sm fade-in">Skills &<br>achievements.</h2>
+          <div class="additional-grid" style="grid-template-columns: 1fr 1fr;">
+
+            <div class="add-card fade-in">
+              <div class="add-label">🌐 Languages</div>
+              <div class="chips">
+                <span class="chip">French (native)</span>
+                <span class="chip">English</span>
+                <span class="chip">German</span>
+                <span class="chip">Spanish</span>
+              </div>
+            </div>
+
+            <div class="add-card fade-in">
+              <div class="add-label">📋 Certifications</div>
+              <ul class="ach-list">
+                <li>BIA & FWA Aviation Diplomas</li>
+                <li>Boating License</li>
+                <li>Driver's License</li>
+                <li>BAFA Diploma (in progress)</li>
+              </ul>
+            </div>
+
+            <div class="add-card fade-in">
+              <div class="add-label">🚣 Competitive Rowing — 6 Years</div>
+              <ul class="ach-list">
+                <li>Bronze — 2023 U17 French National Championship</li>
+                <li>2× Regional Gold medalist (2022 & 2023)</li>
+              </ul>
+            </div>
+
+            <div class="add-card fade-in">
+              <div class="add-label">🏆 Achievements</div>
+              <ul class="ach-list">
+                <li>Finalist — High school eloquence contest (May 2024)</li>
+              </ul>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact">
+    <div class="container">
+      <p class="section-eyebrow fade-in" style="text-align:center;">Contact</p>
+      <div class="contact-row fade-in" style="margin-top:1rem;">
+        <a href="mailto:charlotte.baudin28@gmail.com" class="contact-card">
+          <div class="contact-icon">✉️</div>
+          <div>
+            <div class="contact-label">Email</div>
+            <div class="contact-value">charlotte.baudin28@gmail.com</div>
+          </div>
+        </a>
+        <a href="https://www.linkedin.com/in/charlotte-baudin-5165a5383/" target="_blank" rel="noopener noreferrer" class="contact-card">
+          <div class="contact-icon">💼</div>
+          <div>
+            <div class="contact-label">LinkedIn</div>
+            <div class="contact-value">charlotte-baudin</div>
+          </div>
+        </a>
+        <a href="https://calendar.app.google/cypHv2TmCGSqcMkZ8" target="_blank" rel="noopener noreferrer" class="contact-card" style="border-color: var(--accent-border); background: var(--accent-soft);">
+          <div class="contact-icon">📅</div>
+          <div>
+            <div class="contact-label">Schedule a call</div>
+            <div class="contact-value">Let's chat!</div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <footer>Charlotte Baudin · Montreal, QC · 2026</footer>
+
+  <script>
+    // ── Theme toggle ──
+    const html = document.documentElement;
+    const btn  = document.getElementById('theme-toggle');
+    const SPARKLE_COLORS_DARK  = ['#ffffff', '#FFCCD5'];
+    const SPARKLE_COLORS_LIGHT = ['#C0314F', '#FF8FAB'];
+
+    let isLight = false;
+
+    btn.addEventListener('click', () => {
+      isLight = !isLight;
+      html.classList.toggle('light', isLight);
+
+      // Spin animation
+      btn.classList.remove('spinning');
+      void btn.offsetWidth; // reflow
+      btn.classList.add('spinning');
+      btn.addEventListener('animationend', () => btn.classList.remove('spinning'), { once: true });
+
+      // Update sparkle colours
+      const colors = isLight ? SPARKLE_COLORS_LIGHT : SPARKLE_COLORS_DARK;
+      document.querySelectorAll('.sparkle-svg path').forEach(p => {
+        p.setAttribute('fill', colors[Math.random() > 0.5 ? 0 : 1]);
+      });
+    });
+
+    // ── SparklesText ──
+    const SPARKLE_PATH = 'M9.82531 0.843845C10.0553 0.215178 10.9446 0.215178 11.1746 0.843845L11.8618 2.72026C12.4006 4.19229 12.3916 6.39157 13.5 7.5C14.6084 8.60843 16.8077 8.59935 18.2797 9.13822L20.1561 9.82534C20.7858 10.0553 20.7858 10.9447 20.1561 11.1747L18.2797 11.8618C16.8077 12.4007 14.6084 12.3916 13.5 13.5C12.3916 14.6084 12.4006 16.8077 11.8618 18.2798L11.1746 20.1562C10.9446 20.7858 10.0553 20.7858 9.82531 20.1562L9.13819 18.2798C8.59932 16.8077 8.60843 14.6084 7.5 13.5C6.39157 12.3916 4.19225 12.4007 2.72023 11.8618L0.843814 11.1747C0.215148 10.9447 0.215148 10.0553 0.843814 9.82534L2.72023 9.13822C4.19225 8.59935 6.39157 8.60843 7.5 7.5C8.60843 6.39157 8.59932 4.19229 9.13819 2.72026L9.82531 0.843845Z';
+
+    function createSparkle(container) {
+      const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+      svg.setAttribute('width', '21'); svg.setAttribute('height', '21');
+      svg.setAttribute('viewBox', '0 0 21 21');
+      svg.classList.add('sparkle-svg');
+      const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      path.setAttribute('d', SPARKLE_PATH);
+      path.setAttribute('fill', SPARKLE_COLORS_DARK[Math.random() > 0.5 ? 0 : 1]);
+      svg.appendChild(path);
+      const scale = (Math.random() * 1 + 0.3).toFixed(2);
+      const delay = Math.random() * 2000;
+      const duration = 800 + Math.random() * 500;
+      function reposition() {
+        svg.style.left = `${Math.random() * 110 - 5}%`;
+        svg.style.top  = `${Math.random() * 110 - 5}%`;
+      }
+      reposition();
+      svg.animate(
+        [{ opacity: 0, transform: `scale(0) rotate(75deg)` },
+         { opacity: 1, transform: `scale(${scale}) rotate(120deg)`, offset: 0.5 },
+         { opacity: 0, transform: `scale(0) rotate(150deg)` }],
+        { duration, delay, iterations: Infinity, easing: 'ease-in-out' }
+      );
+      setInterval(reposition, duration + delay + 300);
+      container.appendChild(svg);
+    }
+
+    const sparkleTarget = document.getElementById('sparkle-name');
+    if (sparkleTarget) for (let i = 0; i < 12; i++) createSparkle(sparkleTarget);
+
+    // ── Active nav on scroll ──
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('nav a');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          navLinks.forEach(a => a.classList.remove('active'));
+          const link = document.querySelector(`nav a[href="#${e.target.id}"]`);
+          if (link) link.classList.add('active');
+        }
+      });
+    }, { threshold: 0.4 });
+    sections.forEach(s => observer.observe(s));
+
+    // ── Language toggle ──
+    (function() {
+      var EN = {
+        navHome: "Home", navAbout: "About", navExp: "Experience", navProj: "Projects", navEdu: "Education", navContact: "Contact",
+        heroIntro: "HI. I'm",
+        heroMeta: "Economics & Computer Science \u00B7 Montreal",
+        aboutH: "Driven by results,<br>built on experience.",
+        aboutBody: "Very active, energetic, social, and enthusiastic person. Results-driven leader with a demonstrated ability to build and lead teams in successfully developing projects from concept to completion. Currently <strong>Founder & CEO of Spark</strong> \u2014 a sports-matching app bringing affordability and community back to sports.",
+        expH: "Work &<br>leadership.",
+        projH: "Initiatives &<br>ventures.",
+        eduH: "Academic<br>background.",
+        skillH: "Skills &<br>achievements.",
+        p0t: "Founder & CEO \u2014 Spark", p0o: "\u201CTinder for sports\u201D \u00B7 Montreal", p0tip: "Building Spark \u2014 an app that matches users with sports coaches and players based on skill level and location. Targeting 200,000+ students in Montreal, addressing Gen Z sports affordability and loneliness.",
+        p1t: "Intern \u2014 Zastre & Co", p1o: "Capital Advisory \u00B7 Private Markets", p1tip: "Interned at Zastre & Co, an elite capital advisory firm specializing in private markets. Supported end-to-end deal execution across private equity, credit, and real estate.",
+        p2t: "Tutor", p2o: "Volunteer & private, 2\u20133h/week", p2tip: "Volunteer tutoring for underprivileged middle schoolers and private tutoring, 2\u20133 hours per week.",
+        p3t: "UNICEF Youth Ambassador", p3o: "Fundraising & awareness campaigns", p3tip: "Organized fundraising and awareness activities for International Children's Rights Day; coordinated donation drives and volunteer recruitment.",
+        p4t: "Camp Counsellor \u2014 UCPA", p4o: "Led activities for children aged 7\u201317", p4tip: "Led activities and animation for children aged 7 to 17 during weekly summer camps.",
+        p5t: "National Olympic & Sports Committee", p5o: "Internship \u00B7 Paris, France", p5tip: "One-week immersion internship at the National Olympic and Sports Committee headquarters in Paris.",
+        p6t: "CNF Rowing Club \u2014 Youth Committee Rep", p6o: "Neuilly-sur-Seine \u00B7 Coaching & safety", p6tip: "Organized team-building activities, ensured on-water safety, and coached beginners. Youth representative in the Directing Committee.",
+        p7t: "Youth Mayor's Council", p7o: "Mayor's Office \u00B7 Neuilly-sur-Seine", p7tip: "Two-year engagement in local youth civic governance at the Neuilly-sur-Seine Mayor's office.",
+        sparkT: "Spark \u2014 Founder & CEO", sparkDate: "2026 \u00B7 Montreal \u00B7 <a href=\"https://spark-up.ca/\" target=\"_blank\" rel=\"noopener noreferrer\" style=\"color:var(--accent);text-decoration:none;\">spark-up.ca</a> \u00B7 <a href=\"mailto:sparkup.main@gmail.com\" style=\"color:var(--accent);text-decoration:none;\">sparkup.main@gmail.com</a>", sparkDesc: "\u201CTinder for sports\u201D \u2014 currently building an app that matches users with sports coaches and skilled players through an algorithm based on needs and location.", sparkC: ["Skill-based Matching","Hyper-local","Community Play","B2C App"],
+        desT: "Available for Design Work", desDesc: "I design and build for brands that want to stand out \u2014 websites, identities, and marketing collateral.",
+        ds0t: "Websites", ds0d: "Custom sites that look great and perform better.",
+        ds1t: "Branding & Logos", ds1d: "Logos, color palettes, typography, and brand guides.",
+        ds2t: "Marketing Material", ds2d: "Pitch decks, social graphics, and print collateral.",
+        talT: "Event planning : Talent Show", talDate: "Sep \u2013 Dec 2024", talDesc: "Chief planner and presenter of a talent show for over 1,000 attendees. Managed logistics, rehearsals, and live presentation over 3 months.",
+        deg1: "Bachelor of Arts: Economics", sch1: "McGill University", min1: "Minor in Computer Science",
+        deg2: "French Baccalaur\u00E9at \u2014 with Mention", sch2: "Institution Saint Dominique, Neuilly-sur-Seine",
+        langLbl: "\uD83C\uDF10 Languages", langC: ["French (native)","English","German","Spanish"],
+        certLbl: "\uD83D\uDCCB Certifications", certI: ["BIA & FWA Aviation Diplomas","Boating License","Driver's License","BAFA Diploma (in progress)"],
+        rowLbl: "\uD83D\uDEA3 Competitive Rowing \u2014 6 Years", rowI: ["Bronze \u2014 2023 U17 French National Championship","2\u00D7 Regional Gold medalist (2022 & 2023)"],
+        achLbl: "\uD83C\uDFC6 Achievements", achI: ["Finalist \u2014 High school eloquence contest (May 2024)"],
+        ctEyebrow: "Contact", ctEmail: "Email", ctLI: "LinkedIn", ctCall: "Schedule a call", ctCallV: "Let's chat!",
+        footer: "Charlotte Baudin \u00B7 Montreal, QC \u00B7 2026"
+      };
+      var FR = {
+        navHome: "Accueil", navAbout: "\u00C0 propos", navExp: "Exp\u00E9rience", navProj: "Projets", navEdu: "Formation", navContact: "Contact",
+        heroIntro: "Enchant\u00E9e,",
+        heroMeta: "\u00C9conomie & Informatique \u00B7 Montr\u00E9al",
+        aboutH: "Assoiff\u00E9e<br>d'exp\u00E9rience.",
+        aboutBody: "Active, \u00E9nergique, sociable et enthousiaste. Leader ax\u00E9e sur les r\u00E9sultats, avec une capacit\u00E9 d\u00E9montr\u00E9e \u00E0 construire et diriger des \u00E9quipes pour mener des projets de bout en bout. Actuellement <strong>Fondatrice & CEO de Spark</strong> \u2014 une application de mise en relation sportive qui rend le sport plus accessible et communautaire.",
+        expH: "Exp\u00E9rience &<br>leadership.",
+        projH: "Initiatives &<br>projets.",
+        eduH: "Parcours<br>acad\u00E9mique.",
+        skillH: "Comp\u00E9tences &<br>r\u00E9alisations.",
+        p0t: "Fondatrice & CEO \u2014 Spark", p0o: "\u201CTinder du sport\u201D \u00B7 Montr\u00E9al", p0tip: "Cr\u00E9ation de Spark \u2014 une application qui met en relation des utilisateurs avec des coachs et joueurs selon le niveau et la localisation. Cible 200 000+ \u00E9tudiants \u00E0 Montr\u00E9al.",
+        p1t: "Stagiaire \u2014 Zastre & Co", p1o: "Conseil en capital \u00B7 March\u00E9s priv\u00E9s", p1tip: "Stage chez Zastre & Co, cabinet de conseil en capital sp\u00E9cialis\u00E9 dans les march\u00E9s priv\u00E9s. Soutien \u00E0 l'ex\u00E9cution de transactions en private equity, cr\u00E9dit et immobilier.",
+        p2t: "Tutrice", p2o: "B\u00E9n\u00E9volat & priv\u00E9, 2\u20133h/semaine", p2tip: "Soutien scolaire b\u00E9n\u00E9vole pour des coll\u00E9giens d\u00E9favoris\u00E9s et cours particuliers, 2\u20133 heures par semaine.",
+        p3t: "Ambassadrice jeunes UNICEF", p3o: "Collectes de fonds & campagnes", p3tip: "Organisation d'activit\u00E9s de sensibilisation pour la Journ\u00E9e internationale des droits de l'enfant ; coordination de collectes et recrutement de b\u00E9n\u00E9voles.",
+        p4t: "Animatrice \u2014 UCPA", p4o: "Activit\u00E9s pour enfants de 7 \u00E0 17 ans", p4tip: "Animation d'activit\u00E9s pour des enfants de 7 \u00E0 17 ans lors de s\u00E9jours d'\u00E9t\u00E9 hebdomadaires.",
+        p5t: "Comit\u00E9 national olympique et sportif", p5o: "Stage \u00B7 Paris, France", p5tip: "Stage d'immersion d'une semaine au si\u00E8ge du Comit\u00E9 national olympique et sportif fran\u00E7ais \u00E0 Paris.",
+        p6t: "CNF Aviron \u2014 Rep. comit\u00E9 jeunes", p6o: "Neuilly-sur-Seine \u00B7 Encadrement & s\u00E9curit\u00E9", p6tip: "Organisation d'activit\u00E9s, s\u00E9curit\u00E9 sur l'eau, encadrement des d\u00E9butants. Repr\u00E9sentante jeunes au comit\u00E9 directeur.",
+        p7t: "Conseil municipal des jeunes", p7o: "Mairie de Neuilly-sur-Seine", p7tip: "Deux ans d'engagement dans la gouvernance civique jeunesse \u00E0 la mairie de Neuilly-sur-Seine.",
+        sparkT: "Spark \u2014 Fondatrice & CEO", sparkDate: "2026 \u00B7 Montr\u00E9al \u00B7 <a href=\"https://spark-up.ca/\" target=\"_blank\" rel=\"noopener noreferrer\" style=\"color:var(--accent);text-decoration:none;\">spark-up.ca</a> \u00B7 <a href=\"mailto:sparkup.main@gmail.com\" style=\"color:var(--accent);text-decoration:none;\">sparkup.main@gmail.com</a>", sparkDesc: "\u201CTinder du sport\u201D \u2014 une application qui met en relation des utilisateurs avec des coachs et joueurs via un algorithme bas\u00E9 sur les besoins et la localisation.", sparkC: ["Matching par niveau","Hyper-local","Jeu communautaire","App B2C"],
+        desT: "Disponible pour du design", desDesc: "Je con\u00E7ois et d\u00E9veloppe pour les marques qui veulent se d\u00E9marquer \u2014 sites web, identit\u00E9s visuelles et supports marketing.",
+        ds0t: "Sites web", ds0d: "Sites sur mesure, beaux et performants.",
+        ds1t: "Branding & Logos", ds1d: "Logos, palettes, typographies et chartes graphiques.",
+        ds2t: "Supports marketing", ds2d: "Pitch decks, visuels r\u00E9seaux sociaux et supports print.",
+        talT: "Organisation d'\u00E9v\u00E9nement : Talent Show", talDate: "Sep \u2013 D\u00E9c 2024", talDesc: "Organisatrice en chef et pr\u00E9sentatrice d'un talent show pour plus de 1 000 personnes. Gestion de la logistique, des r\u00E9p\u00E9titions et de la pr\u00E9sentation live sur 3 mois.",
+        deg1: "Licence en \u00C9conomie", sch1: "Universit\u00E9 McGill", min1: "Mineure en Informatique",
+        deg2: "Baccalaur\u00E9at fran\u00E7ais \u2014 Mention", sch2: "Institution Saint Dominique, Neuilly-sur-Seine",
+        langLbl: "\uD83C\uDF10 Langues", langC: ["Fran\u00E7ais (natif)","Anglais","Allemand","Espagnol"],
+        certLbl: "\uD83D\uDCCB Certifications", certI: ["Dipl\u00F4mes Aviation BIA & FWA","Permis bateau","Permis de conduire","Dipl\u00F4me BAFA (en cours)"],
+        rowLbl: "\uD83D\uDEA3 Aviron de comp\u00E9tition \u2014 6 ans", rowI: ["Bronze \u2014 Championnat de France U17 2023","2\u00D7 M\u00E9daille d'or r\u00E9gionale (2022 & 2023)"],
+        achLbl: "\uD83C\uDFC6 R\u00E9alisations", achI: ["Finaliste \u2014 Concours d'\u00E9loquence lyc\u00E9en (mai 2024)"],
+        ctEyebrow: "Contact", ctEmail: "E-mail", ctLI: "LinkedIn", ctCall: "Prendre rendez-vous", ctCallV: "Parlons-en !",
+        footer: "Charlotte Baudin \u00B7 Montr\u00E9al, QC \u00B7 2026"
+      };
+
+      var currentLang = "en";
+      var langBtn = document.getElementById("lang-toggle");
+      if (!langBtn) return;
+
+      function set(sel, prop, val) {
+        var el = document.querySelector(sel);
+        if (el) el[prop] = val;
+      }
+      function setAll(sel, prop, vals) {
+        document.querySelectorAll(sel).forEach(function(el, i) { if (vals[i] !== undefined) el[prop] = vals[i]; });
+      }
+
+      function applyLang(t) {
+        // Nav
+        var navKeys = ["home","about","experience","projects","education","contact"];
+        var navVals = [t.navHome, t.navAbout, t.navExp, t.navProj, t.navEdu, t.navContact];
+        document.querySelectorAll("nav a[data-nav]").forEach(function(a) {
+          var idx = navKeys.indexOf(a.getAttribute("data-nav"));
+          if (idx >= 0) a.textContent = navVals[idx];
+        });
+        // Hero
+        set("#hero-intro", "textContent", t.heroIntro);
+        set(".hero-meta", "textContent", t.heroMeta);
+        // About
+        set("#about .section-heading", "innerHTML", t.aboutH);
+        set(".about-body", "innerHTML", t.aboutBody);
+        // Section headings
+        set("#experience .section-heading", "innerHTML", t.expH);
+        set("#projects .section-heading", "innerHTML", t.projH);
+        var eduHs = document.querySelectorAll("#education .section-heading.sm");
+        if (eduHs[0]) eduHs[0].innerHTML = t.eduH;
+        if (eduHs[1]) eduHs[1].innerHTML = t.skillH;
+        // Stair pills
+        var pillData = [
+          [t.p0t, t.p0o, t.p0tip], [t.p1t, t.p1o, t.p1tip], [t.p2t, t.p2o, t.p2tip],
+          [t.p3t, t.p3o, t.p3tip], [t.p4t, t.p4o, t.p4tip], [t.p5t, t.p5o, t.p5tip],
+          [t.p6t, t.p6o, t.p6tip], [t.p7t, t.p7o, t.p7tip]
+        ];
+        document.querySelectorAll(".stair-item").forEach(function(item, idx) {
+          if (!pillData[idx]) return;
+          var titleEl = item.querySelector(".pill-title");
+          var orgEl   = item.querySelector(".pill-org");
+          var tipEl   = item.querySelector(".pill-tooltip");
+          if (titleEl) {
+            if (idx === 0) {
+              var img = titleEl.querySelector("img");
+              if (!img) { img = document.createElement("img"); img.src="Sparklogoshort.png"; img.alt="Spark"; img.style.cssText="height:1.3em;width:auto;vertical-align:middle;margin-right:0.4em;mix-blend-mode:multiply;"; }
+              titleEl.innerHTML = "";
+              titleEl.appendChild(img);
+              titleEl.appendChild(document.createTextNode(pillData[idx][0]));
+            } else {
+              titleEl.textContent = pillData[idx][0];
+            }
+          }
+          if (orgEl) orgEl.textContent = pillData[idx][1];
+          if (tipEl) tipEl.textContent = pillData[idx][2];
+        });
+        // Project cards
+        var pc = document.querySelectorAll(".project-card");
+        if (pc[0]) {
+          var pt = pc[0].querySelector(".project-title"); if (pt) pt.textContent = t.sparkT;
+          var pd = pc[0].querySelector(".project-date");
+          if (pd) pd.innerHTML = t.sparkDate;
+          var pde = pc[0].querySelector(".project-desc"); if (pde) pde.textContent = t.sparkDesc;
+          pc[0].querySelectorAll(".chip").forEach(function(c,i){ if (t.sparkC[i]) c.textContent = t.sparkC[i]; });
+        }
+        if (pc[1]) {
+          var dt = pc[1].querySelector(".project-title"); if (dt) dt.textContent = t.desT;
+          var dd = pc[1].querySelector(".project-desc"); if (dd) dd.textContent = t.desDesc;
+          var ds = pc[1].querySelectorAll(".design-service");
+          var dsTitles = [t.ds0t,t.ds1t,t.ds2t], dsDescs = [t.ds0d,t.ds1d,t.ds2d];
+          ds.forEach(function(s,i){ var st=s.querySelector(".design-service-title"); var sd=s.querySelector(".design-service-desc"); if(st) st.textContent=dsTitles[i]; if(sd) sd.textContent=dsDescs[i]; });
+        }
+        if (pc[2]) {
+          var tt = pc[2].querySelector(".project-title"); if (tt) tt.textContent = t.talT;
+          var td = pc[2].querySelector(".project-date"); if (td) td.textContent = t.talDate;
+          var tde = pc[2].querySelector(".project-desc"); if (tde) tde.textContent = t.talDesc;
+        }
+        // Edu cards
+        var ec = document.querySelectorAll(".edu-card");
+        if (ec[0]) {
+          var d1 = ec[0].querySelector(".edu-degree"); if (d1) d1.textContent = t.deg1;
+          var s1 = ec[0].querySelector(".edu-school"); if (s1) s1.textContent = t.sch1;
+          var dates = ec[0].querySelectorAll(".edu-date"); if (dates[1]) dates[1].textContent = t.min1;
+        }
+        if (ec[1]) {
+          var d2 = ec[1].querySelector(".edu-degree"); if (d2) d2.textContent = t.deg2;
+          var s2 = ec[1].querySelector(".edu-school"); if (s2) s2.textContent = t.sch2;
+        }
+        // Add-cards (skills)
+        var ac = document.querySelectorAll(".add-card");
+        if (ac[0]) { var al0=ac[0].querySelector(".add-label"); if(al0) al0.textContent=t.langLbl; ac[0].querySelectorAll(".chip").forEach(function(c,i){ if(t.langC[i]) c.textContent=t.langC[i]; }); }
+        if (ac[1]) { var al1=ac[1].querySelector(".add-label"); if(al1) al1.textContent=t.certLbl; ac[1].querySelectorAll(".ach-list li").forEach(function(li,i){ if(t.certI[i]) li.textContent=t.certI[i]; }); }
+        if (ac[2]) { var al2=ac[2].querySelector(".add-label"); if(al2) al2.textContent=t.rowLbl; ac[2].querySelectorAll(".ach-list li").forEach(function(li,i){ if(t.rowI[i]) li.textContent=t.rowI[i]; }); }
+        if (ac[3]) { var al3=ac[3].querySelector(".add-label"); if(al3) al3.textContent=t.achLbl; ac[3].querySelectorAll(".ach-list li").forEach(function(li,i){ if(t.achI[i]) li.textContent=t.achI[i]; }); }
+        // Contact
+        var ce = document.querySelector("#contact .section-eyebrow"); if (ce) ce.textContent = t.ctEyebrow;
+        var cc = document.querySelectorAll(".contact-card");
+        if (cc[0]) { var cl0=cc[0].querySelector(".contact-label"); if(cl0) cl0.textContent=t.ctEmail; }
+        if (cc[1]) { var cl1=cc[1].querySelector(".contact-label"); if(cl1) cl1.textContent=t.ctLI; }
+        if (cc[2]) { var cl2=cc[2].querySelector(".contact-label"); if(cl2) cl2.textContent=t.ctCall; var cv=cc[2].querySelector(".contact-value"); if(cv) cv.textContent=t.ctCallV; }
+        // Footer
+        var footer = document.querySelector("footer"); if (footer) footer.textContent = t.footer;
+        // Button label + html lang attr (drives CSS font-size overrides)
+        langBtn.textContent = currentLang === "en" ? "FR" : "EN";
+        document.documentElement.lang = currentLang === "en" ? "en" : "fr";
+      }
+
+      langBtn.addEventListener("click", function() {
+        currentLang = currentLang === "en" ? "fr" : "en";
+        applyLang(currentLang === "en" ? EN : FR);
+      });
+    }());
+
+    // ── Fade-in ──
+    const fadeObs = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); fadeObs.unobserve(e.target); } });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.fade-in').forEach((el, i) => {
+      el.style.transitionDelay = `${(i % 4) * 0.07}s`;
+      fadeObs.observe(el);
+    });
+
+  </script>
+</body>
+</html>
